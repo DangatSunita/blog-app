@@ -1,7 +1,7 @@
 import Base from "../components/Base"
 
 const Home = () => {
-    console.log("Home Page");
+
     return(
         <Base>
             <div>
