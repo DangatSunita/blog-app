@@ -1,13 +1,14 @@
-import React from "react";
 import Base from "../../components/Base";
+import AddPost from "../../components/AddPost";
+import { Container } from "reactstrap";
 
 const Userdashboard = () =>{
     return (
         <Base>
-            <div>
-            <h1>Welcome to user dashboard</h1>
-            <p>Google LLC is an American multinational technology company focusing on artificial intelligence, online advertising, search engine technology, cloud computing, computer software, quantum computing, e-commerce, and consumer electronics.</p>    
-            </div>
+            <Container>
+                <AddPost/>
+            </Container>
+   
         </Base>
     )
 }
