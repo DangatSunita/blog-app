@@ -1,12 +1,19 @@
-import { privateAxios } from "./helper"
+import { myAxios, privateAxios } from "./helper"
 
 //create post function
 export const createPost=(postData) => {
-    //   console.log(postData);
+      // console.log(postData);
   return privateAxios
   .post(
     `/user/${postData.userId}/category/${postData.categoryId}/posts`,
     postData
   )
   .then((response) => response.data);
-}
+};
+
+//get all post
+
+export const loadAllPosts = (pageNumber, pageSize) =>{
+  return myAxios.get(`/posts?pageNumber=${pageNumber}&pageSize=${pageSize}`).then((response)=> response.data);
+};
+

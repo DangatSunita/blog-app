@@ -4,6 +4,7 @@ import { loadAllCategories } from "../services/category-service"
 import JoditEditor from "jodit-react"
 import { toast } from "react-toastify"
 import { createPost as doCreatePost } from "../services/post-service"
+import { getCurrentUserDetail } from "../auth"
 
 const AddPost =()=>{
 
@@ -28,7 +29,7 @@ const AddPost =()=>{
     useEffect(
         () => {
 
-            // setUser(getCurrentUserDetail())
+            setUser(getCurrentUserDetail)
             loadAllCategories().then((data) => {
                 console.log(data)
                 setCategories(data)
@@ -49,9 +50,11 @@ const AddPost =()=>{
     }
 
     
-    //create post function
+    // create post function
     const createPost = (event) => {
         event.preventDefault();
+        console.log(post)
+    
         if (post.title.trim() === '') {
             toast.error("post  title is required")
             return;
@@ -67,27 +70,27 @@ const AddPost =()=>{
             return;
         }
 
-          //submit the form one server
-          post['userId'] = user.id
-         doCreatePost(post).then(data=>{
-            toast.success("post created ")
-            // console.log(post)
+
+        //   submit the form one server
+        post['userId'] = user.id
+        doCreatePost(post).then(data=>{
+            toast.success("Post created")
             setPost({
                 title: '',
                 content: '',
                 categoryId: ''
             })
-         }).catch((error)=>{
-            toast.error("Post not created due to some error...")
-            // console.log(error)
-         })
+            
+        }).catch((error)=>{
+                    toast.error("Post not created due to some error...")
+                 })
     }
 
     return(
         <div className="wrapper">
            <Card className="shadow-sm mt-2">
             <CardBody> 
-                  {JSON.stringify(post)}
+                  {/* {JSON.stringify(post)} */}
                 <h3>What is going on</h3>
                 <Form onSubmit={createPost}>
                     <div className="my-3">
@@ -103,7 +106,7 @@ const AddPost =()=>{
                             ref={editor}
                             value={post.content}
                             // config={config}
-                            onChange={contentFieldChanaged}
+                            onChange={(newContent) => contentFieldChanaged(newContent)}
                         />
                     </div>
                     <div className="my-3">

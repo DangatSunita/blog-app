@@ -44,7 +44,7 @@ const CustomNavBar =() =>{
           >
             <NavItem>
               <NavLink tag={ReactLink} to = "/home">
-                Home
+                NewFeed
               </NavLink>
             </NavItem>
             <NavItem>

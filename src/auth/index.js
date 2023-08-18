@@ -30,7 +30,12 @@ export const isLoggedIn = () => {
 
   export const getToken=()=>{
     if(isLoggedIn()){
-      return JSON.parse(localStorage.getItem("data")).token
+      console.log("getToken");
+      console.log(localStorage.getItem("data"));
+      const data = JSON.parse(localStorage.getItem("data"));
+      console.log('data token  : '+data.token);
+      //return localStorage.getItem("data")['token'];
+      return data.token;
     }else{
       return null;
     }
