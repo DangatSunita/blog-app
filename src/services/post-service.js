@@ -14,6 +14,14 @@ export const createPost=(postData) => {
 //get all post
 
 export const loadAllPosts = (pageNumber, pageSize) =>{
-  return myAxios.get(`/posts?pageNumber=${pageNumber}&pageSize=${pageSize}`).then((response)=> response.data);
+  return myAxios.get(`/posts?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=addedDate&sortDir=desc`).then((response)=> response.data);
+};
+
+export const loadPost = (postId) => {
+  return myAxios.get("/posts/" + postId).then((reponse) => reponse.data);
+};
+
+export const createComment = (comment, postId) => {
+  return privateAxios.post(`/post/${postId}/comments`, comment);
 };
 

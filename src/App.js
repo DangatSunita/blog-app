@@ -11,6 +11,7 @@ import {ToastContainer} from 'react-toastify';
 import Privateroute from './components/Privateroute';
 import Userdashboard from './pages/user-routes/Userdashboard';
 import Profileinfo from './pages/user-routes/Profileinfo';
+import PostPage from './pages/PostPage';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
       <Route path= "/home" element = {<Home />} />
       <Route path= "/about" element = {<About />} />
       <Route path= "/services" element = {<Services />} />
-
+      <Route path= "/posts/:postId" element = {<PostPage />} />
       
       <Route path= "/user" element = {<Privateroute />} >
         <Route path= "dashboard" element = {<Userdashboard />} />

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Button, Card, CardBody, CardText } from 'reactstrap'
 
 function Post({post={title:"This is default post tilte", content:"This is default content"}}) {
@@ -6,12 +7,12 @@ function Post({post={title:"This is default post tilte", content:"This is defaul
     <Card className='border-0 shadow-sm mt-3'>
         <CardBody>
             <h1>{post.title}</h1>
-            <CardText>
-                {post.content.substring(0,20)}...
+            <CardText dangerouslySetInnerHTML={{ __html: post.content.substring(0, 20) + "...." }}>
+              
             </CardText>
 
             <div>
-                <Button>Read  more</Button>
+                <Link className='btn btn-secondary border-0' to={"/posts/" +post.postId}>Read  more</Link>
             </div>
         </CardBody>
     </Card>
