@@ -3,6 +3,7 @@ import { loadAllPosts } from '../services/post-service'
 import {Row, Col, Pagination, PaginationItem, PaginationLink, Container} from 'reactstrap'
 import Post from './Post'
 import { toast } from "react-toastify"
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 function NewFeed() {
 
@@ -15,11 +16,12 @@ const [postContent, setPostContent] = useState({
     pageNumber: ''
 })
 
+const [currentPage, setCurrentPage] = useState(0)
+
 useEffect(()=>{
     // Load all posts from server
-   changePage(0)
-},[])
-
+   changePage(currentPage)
+},[currentPage])
 
     const changePage=(pageNumber=0, pageSize=5)=>{
         if (pageNumber > postContent.pageNumber && postContent.lastPage) {
@@ -29,12 +31,25 @@ useEffect(()=>{
             return
         }
         loadAllPosts(pageNumber, pageSize).then(data=>{
-            setPostContent(data)
-            window.scroll(0,0)
+            setPostContent({
+                content: [...postContent.content, ...data.content],
+                totalPages: data.totalPages,
+                totalElements: data.totalElements,
+                pageSize: data.pageSize,
+                lastPage: data.lastPage,
+                pageNumber: data.pageNumber
+            })
+            console.log(data);
         }).catch(error=>{
             toast.error("Error in loading")
         })
     }
+    const changePageInfinite = () => {
+        console.log("page chagned")
+        setCurrentPage(currentPage + 1)
+
+    }
+
 
   return (
     <div className="container-fluid">
@@ -46,12 +61,24 @@ useEffect(()=>{
             }
         }>
         <h1>Blogs Count  ( {postContent?.totalElements} )</h1>
+        <InfiniteScroll
+            dataLength={postContent.content.length}
+            next={changePageInfinite}
+            hasMore={!postContent.lastPage}
+            loader={<h4>Loading...</h4>}
+            endMessage={
+                <p style={{ textAlign: 'center' }}>
+                    <b>Yay! You have seen it all</b>
+                </p>
+            }
+        >
         {
             postContent.content.map((post)=>(
                 <Post post={post} key={post.postId}/>
             ))
         }
-        <Container className='mt-2'>
+        </InfiniteScroll>
+        {/* <Container className='mt-2'>
         <Pagination size='lg'>
             <PaginationItem onClick={()=>changePage(postContent.pageNumber-1)} disabled={postContent.pageNumber == 0}>
                 <PaginationLink previous>Previous</PaginationLink>
@@ -70,7 +97,7 @@ useEffect(()=>{
                 <PaginationLink next>Next</PaginationLink>
             </PaginationItem>
         </Pagination>
-        </Container>
+        </Container> */}
         </Col>
        </Row>
     </div>
