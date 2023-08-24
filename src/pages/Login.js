@@ -1,13 +1,15 @@
 import { Button, Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import Base from "../components/Base";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {toast} from 'react-toastify';
 import { loginUser } from "../services/user-service";
 import { doLogin } from "../auth";
 import { useNavigate } from "react-router-dom";
+import userContext from "../context/userContext";
 const Login = () => {
 
     const navigate = useNavigate()
+    const userContxtData = useContext(userContext);
 
     const[loginDetail, setLoginDetail] =useState({
         username: "",
@@ -44,8 +46,12 @@ const Login = () => {
 
             // save data to localStorage
             doLogin(data, ()=>{
-                console.log("Login detail is saved to local storage")
+                console.log("Login detail is saved to local storage");
                 //Redirect to user- dashboard 
+                userContxtData.setUser({
+                    data: data,
+                    login: true,
+                });
                 navigate("/user/dashboard")
             })
             toast.success("User Login successfully....");
