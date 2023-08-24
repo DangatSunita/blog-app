@@ -12,7 +12,7 @@ const AddPost =()=>{
     // const [content,setContent] =useState('')
     const [categories, setCategories] = useState([])
     const [user, setUser] = useState(undefined)
-
+    const [image, setImage] = useState(null)
 
     const [post, setPost] = useState({
         title: '',
@@ -74,6 +74,12 @@ const AddPost =()=>{
         //   submit the form one server
         post['userId'] = user.id
         doCreatePost(post).then(data=>{
+            uploadPostImage(image,data.postId).then(data=>{
+                toast.success("Image Uploaded !!")
+            }).catch(error=>{
+                toast.error("Error in uploading image")
+                console.log(error)
+            })
             toast.success("Post created")
             setPost({
                 title: '',
@@ -86,6 +92,11 @@ const AddPost =()=>{
                  })
     }
 
+    // handle change event
+    const handleFileChange=(event)=>{
+        console.log(event.target.files[0])
+        setImage(event.target.files[0])
+    }
     return(
         <div className="wrapper">
            <Card className="shadow-sm mt-2">
@@ -109,6 +120,13 @@ const AddPost =()=>{
                             onChange={(newContent) => contentFieldChanaged(newContent)}
                         />
                     </div>
+
+                    {/* File field */}
+                    <div className="mt-3">
+                        <Label for="image">Select Post Banner</Label>
+                        <Input id="image" type="file" onChange={handleFileChange}/>
+                    </div>
+
                     <div className="my-3">
                         <Label for="category" >Post Category</Label>
                         <Input type="select" id="category" placeholder="Enter here"
