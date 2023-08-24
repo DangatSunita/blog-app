@@ -45,3 +45,12 @@ export function loadPostCategoryWise(categoryId) {
     .then((res) => res.data);
 }
 
+export function loadPostUserWise(userId) {
+  return privateAxios.get(`/user/${userId}/posts`).then((res) => res.data);
+}
+
+//delete post
+export function deletePostService(postId) {
+  return privateAxios.delete(`/posts/${postId}`).then((res) => res.data);
+}
+

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { loadAllPosts } from '../services/post-service'
+import { deletePostService, loadAllPosts } from '../services/post-service'
 import {Row, Col, Pagination, PaginationItem, PaginationLink, Container} from 'reactstrap'
 import Post from './Post'
 import { toast } from "react-toastify"
@@ -44,6 +44,23 @@ useEffect(()=>{
             toast.error("Error in loading")
         })
     }
+
+    function deletePost(post) {
+        //going to delete post
+        console.log(post)
+    
+        deletePostService(post.postId).then(res => {
+          console.log(res)
+          toast.success("post is deleled..")
+
+         let newPostContents = postContent.content.filter(p=>p.postId!=post.postId)
+         setPostContent({...postContent, content:newPostContents})
+        })
+          .catch(error => {
+            console.log(error)
+            toast.error("error in deleting post")
+          })
+      }
     const changePageInfinite = () => {
         console.log("page chagned")
         setCurrentPage(currentPage + 1)
@@ -73,7 +90,7 @@ useEffect(()=>{
         >
         {
             postContent.content.map((post)=>(
-                <Post post={post} key={post.postId}/>
+                <Post deletePost={deletePost} post={post} key={post.postId}/>
             ))
         }
         </InfiniteScroll>
