@@ -11,6 +11,13 @@ function UserProvider({ children }) {
        login: false
     })
 
+    useEffect(()=>{
+        setUser({
+            data: getCurrentUserDetail(),
+            login: isLoggedIn()
+        })
+    }, [])
+
     return (
 
         <userContext.Provider value={{ user, setUser }}>

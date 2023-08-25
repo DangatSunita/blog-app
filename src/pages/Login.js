@@ -49,7 +49,7 @@ const Login = () => {
                 console.log("Login detail is saved to local storage");
                 //Redirect to user- dashboard 
                 userContxtData.setUser({
-                    data: data,
+                    data: data.user,
                     login: true,
                 });
                 navigate("/user/dashboard")
